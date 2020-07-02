@@ -15,6 +15,12 @@ public class Livre {
 	private String auteur;
 	
 	
+	@Override
+	public String toString() {
+		return "Livre [titre=" + titre + ", auteur=" + auteur + "]";
+	}
+
+
 	//Constructeur sans argument 
 	public Livre() {}
 	

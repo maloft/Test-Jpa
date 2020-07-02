@@ -1,3 +1,5 @@
+import java.util.List;
+
 import javax.persistence.*;
 
 public class TestJpa {
@@ -14,24 +16,13 @@ public class TestJpa {
 		System.out.println(livre.getTitre() + " by " + livre.getAuteur());
 		
 		
-		//Insérez un nouveau Livre de votre choix en base de données
-		Livre nouv = new Livre();
-		nouv.setId(8);
-		nouv.setAuteur("Avicenna");
-		nouv.setTitre("The Canon of Medicine");
-		em.persist(nouv);
-		
-		// Constrainte JPA => la modification doit se faire dans le cadre d'une transaction.
-        EntityTransaction tx = em.getTransaction();
-        tx.begin();
-        em.persist(nouv); // insérer une nouvelle ligne
-        tx.commit(); // flush automatique
-		
-		
 		
 		/*Modifiez le titre du livre d’identifiant 5 qui possède une erreur : le nouveau titre doit être
 		 * « Du plaisir dans la cuisine » au lieu de « 1001 recettes de Cuisine ». */
-		em.find(Livre.class, 5).setTitre("Du plaisir dans la cuisine");
+		Livre ll = em.find(Livre.class, 5);
+		if (ll != null) {
+			ll.setTitre("Du plaisir dans la cuisine");
+		}
 		
 		
 		
@@ -50,6 +41,20 @@ public class TestJpa {
 		Livre l3 = query3.getResultList().get(0);
 		
 		System.out.println(l3.getId());
+		
+		
+		//Supprimez un livre de votre choix en base de données.
+		Livre l = em.find(Livre.class, 2);
+
+		if (l != null){
+			em.remove(l);
+		}
+		
+		//Affichez la liste de tous les livres présents en base de données (titre et auteur).
+		TypedQuery<Livre> query = em.createQuery("select l from Livre l", Livre.class);
+        List<Livre> liste = query.getResultList();
+        liste.forEach(System.out::println);
+
 		
 		em.close();
 
