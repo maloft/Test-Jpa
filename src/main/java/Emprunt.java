@@ -1,9 +1,7 @@
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 
 
@@ -11,17 +9,30 @@ import javax.persistence.Table;
 @Table(name="EMPRUNT")
 public class Emprunt {
 	
+	@ManyToMany(mappedBy="emprunts")
+	private Set<Livre> livres;
+	
+	
+	
+	
+	@ManyToOne
+	@JoinColumn(name="ID_CLIENT")
+	private Client client;
+	
 	@Id
-	@Column (name = "ID")
+	@Column (name = "ID", length = 10, nullable = false, unique = true)
 	private Integer Id;
 	
 	@Column(name = "DATE_DEBUT")
-	private Date date_debut;
+	private LocalDateTime date_debut;
 	
 	@Column(name = "DATE_FIN")
-	private Date date_fin;
+	private LocalDateTime date_fin;
 	
-	@Column(name = "ID_CLIENT")
+	@Column(name = "DELAI", length = 10)
+	private Integer delai;
+	
+	@Column(name = "ID_CLIENT", length = 10, nullable = false)
 	private Integer Id_client;
 	
 	
@@ -41,28 +52,28 @@ public class Emprunt {
 
 
 
-	public Date getDate_debut() {
+	public LocalDateTime getDate_debut() {
 		return date_debut;
 	}
 
 
 
 
-	public void setDate_debut(Date date_debut) {
+	public void setDate_debut(LocalDateTime date_debut) {
 		this.date_debut = date_debut;
 	}
 
 
 
 
-	public Date getDate_fin() {
+	public LocalDateTime getDate_fin() {
 		return date_fin;
 	}
 
 
 
 
-	public void setDate_fin(Date date_fin) {
+	public void setDate_fin(LocalDateTime date_fin) {
 		this.date_fin = date_fin;
 	}
 

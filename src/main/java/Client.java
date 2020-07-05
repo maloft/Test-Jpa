@@ -1,20 +1,24 @@
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.util.Set;
+
+import javax.persistence.*;
+
 
 @Entity
 @Table(name="CLIENT")
 public class Client {
 	
+	@OneToMany(mappedBy="client")
+	private Set<Emprunt> emprunt;
+	
 	@Id
-	@Column (name = "ID")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "ID", length = 10, nullable = false, unique = true)
 	private Integer Id;
 	
-	@Column(name = "NOM")
+	@Column(name = "NOM", length = 50, nullable = false)
 	private String nom;
 	
-	@Column(name = "PRENOM")
+	@Column(name = "PRENOM", length = 50, nullable = false)
 	private String prenom;
 	
 	
